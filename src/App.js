@@ -1,37 +1,34 @@
 import { useState, useEffect } from "react";
 import "./App.css";
 import axios from "axios";
+import scrambler from "./scrambler";
 
 function App() {
   const [data, setData] = useState("")
   const [loading, setLoading] = useState(true)
 
+  let number = 1;
 
-
+  //Fetching data and assigning to setData useState.
   useEffect(() => {
-    axios("https://api.hatchways.io/assessment/sentences/1")
+    axios(`https://api.hatchways.io/assessment/sentences/${number}`)
     .then(response => {
       
-      setData(response.data)
+      setData(response.data.data)
     })
     .catch(error => {console.log("error fetching data")})
     .finally(setLoading(false))
   }, [])
 
-  if(data){
-    console.log(data.data.sentence)
-  }
-
   return (
-    <div className="App">
-      <h1
-        className="App-link"
-        href="https://reactjs.org"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        {data.data.sentence}
-      </h1>
+    <div className="main-container">
+      <div className="inner-container">
+        <h1
+          className="sentence"
+        >
+          {data && scrambler(data.sentence)}
+        </h1>
+      </div>
     </div>
   );
 }
