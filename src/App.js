@@ -1,23 +1,37 @@
-import logo from './logo.svg';
-import './App.css';
+import { useState, useEffect } from "react";
+import "./App.css";
+import axios from "axios";
 
 function App() {
+  const [data, setData] = useState("")
+  const [loading, setLoading] = useState(true)
+
+
+
+  useEffect(() => {
+    axios("https://api.hatchways.io/assessment/sentences/1")
+    .then(response => {
+      
+      setData(response.data)
+    })
+    .catch(error => {console.log("error fetching data")})
+    .finally(setLoading(false))
+  }, [])
+
+  if(data){
+    console.log(data.data.sentence)
+  }
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <h1
+        className="App-link"
+        href="https://reactjs.org"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        {data.data.sentence}
+      </h1>
     </div>
   );
 }
