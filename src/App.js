@@ -7,6 +7,7 @@ function App() {
   const [data, setData] = useState("")
   const [loading, setLoading] = useState(true)
 
+  //Counter passed into fetch API.
   let number = 1;
 
   //Fetching data and assigning to setData useState.
@@ -23,11 +24,13 @@ function App() {
   return (
     <div className="main-container">
       <div className="inner-container">
-        <h1
-          className="sentence"
-        >
-          {data && scrambler(data.sentence)}
-        </h1>
+        <div className="sentence-and-instructions">
+          <h1 className="sentence">{data && scrambler(data.sentence)}</h1>
+          <span className="instructions">Guess the sentence! Start typing</span>
+          <span className="instructions">
+            The yellow blocks are meant for spaces
+          </span>
+        </div>
       </div>
     </div>
   );

@@ -1,5 +1,5 @@
 *{
-  font-family:;
+  font-family: 'Open Sans', sans-serif;
 }
 
 .main-container{
@@ -21,7 +21,23 @@
   align-items: center;
 }
 
+.sentence-and-instructions{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 50%;
+}
+
 .sentence{
   margin-top: 3rem;
+  font-size: 3rem;
+  color: rgb(85, 85, 208);
 }
+
+.instructions{
+  margin-top: 2rem;
+  font-size: 1.5rem;
+}
+
+
 
