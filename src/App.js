@@ -2,20 +2,23 @@ import { useState, useEffect } from "react";
 import "./App.css";
 import axios from "axios";
 import scrambler from "./scrambler";
+import {rowCount, columnCount} from "./sentenceParser"
 
 function App() {
   const [data, setData] = useState("")
   const [loading, setLoading] = useState(true)
+  const [rows, setRows] = useState(0)
 
   //Counter passed into fetch API.
   let number = 1;
+  // console.log(data.sentence[data.sentence.length - 1]);
 
   //Fetching data and assigning to setData useState.
   useEffect(() => {
     axios(`https://api.hatchways.io/assessment/sentences/${number}`)
     .then(response => {
-      
       setData(response.data.data)
+      setRows(rowCount(data.sentence));
     })
     .catch(error => {console.log("error fetching data")})
     .finally(setLoading(false))
@@ -31,6 +34,23 @@ function App() {
             The yellow blocks are meant for spaces
           </span>
         </div>
+        
+        {data &&
+          data.sentence.split(" ").map((el) => {
+            
+            return (
+              <div className="word">
+                {el && el.split('').map((lett) => {
+                  return (
+                    <div className="letter">
+                      {lett}
+                    </div>
+                  )
+                })}
+                {/* {el == data.sentence[data.sentence.length - 1] ? "hey" : "nah"} */}
+              </div>
+            );
+          })}
       </div>
     </div>
   );
