@@ -24,7 +24,7 @@ function App() {
     .finally(setLoading(false))
   }, [])
 
-  console.log(data.sentence.substr(0, data.sentence.indexOf(" ")));
+  console.log();
 
   return (
     <div className="main-container">
