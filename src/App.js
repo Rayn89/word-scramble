@@ -34,23 +34,19 @@ function App() {
             The yellow blocks are meant for spaces
           </span>
         </div>
-        
-        {data &&
-          data.sentence.split(" ").map((el) => {
-            
-            return (
-              <div className="word">
-                {el && el.split('').map((lett) => {
-                  return (
-                    <div className="letter">
-                      {lett}
-                    </div>
-                  )
-                })}
-                {/* {el == data.sentence[data.sentence.length - 1] ? "hey" : "nah"} */}
-              </div>
-            );
-          })}
+        <div className="guess-container">
+          {data &&
+            data.sentence.split(" ").map((el) => {
+              return (
+                <div className="word">
+                  {el &&
+                    el.split("").map((lett) => {
+                      return <div className="letter">{lett}</div>;
+                    })}
+                </div>
+              );
+            })}
+        </div>
       </div>
     </div>
   );
