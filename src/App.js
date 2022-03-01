@@ -24,6 +24,8 @@ function App() {
     .finally(setLoading(false))
   }, [])
 
+  console.log(data.sentence.substr(0, data.sentence.indexOf(" ")));
+
   return (
     <div className="main-container">
       <div className="inner-container">
@@ -36,12 +38,16 @@ function App() {
         </div>
         <div className="guess-container">
           {data &&
-            data.sentence.split(" ").map((el) => {
+            data.sentence.split("").map((el) => {
               return (
                 <div className="word">
                   {el &&
                     el.split("").map((lett) => {
-                      return <div className="letter">{lett}</div>;
+                      return (
+                      (lett == " " ? <div className="space">{lett}Space</div> : 
+                      <div className="letter">{lett}</div>
+                      )
+                      )
                     })}
                 </div>
               );
