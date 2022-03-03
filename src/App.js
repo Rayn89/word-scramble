@@ -11,24 +11,16 @@ function App() {
   const score = useRef(0);
   const savedWord = useRef();
   const inputRef = useRef(null);
+  const [inputs, setInputs] = useState("");
+
+  let inputArray;
+  setTimeout(() => {
+    inputArray = document.querySelectorAll("input");
+    inputArray[0].focus();
+  }, 1000);
 
   //Counter passed into fetch API.
-  let number = 1;
-
-   const setFocus = () => {
-     //Add id to the table
-     let first = document.getElementsByTagName("input")[0];
-
-     //table > tbody > tr (latest added row) > td (first cell in the row) > input
-     //  let cell =
-     //    document.getElementById("mytable").lastElementChild.lastElementChild
-     //      .firstElementChild.children[0];
-     console.log(first);
-     if (first) {
-       first.focus();
-     }
-   };
-   setFocus()
+  let number = 0;
 
   //Fetching data and assigning to setData useState.
   useEffect(() => {
@@ -51,10 +43,6 @@ function App() {
   }
   let counter = 0;
 
-  
-
-   
-
   return (
     <div className="main-container">
       <div className="inner-container">
@@ -76,7 +64,7 @@ function App() {
                       return lett == " " ? (
                         <input
                           className="space"
-                          key={(counter += 1)}
+                          name={(counter += 1)}
                           maxLength="1"
                           onChange={(e) =>
                             e.target.value == lett ? console.log("YES") : "no"
@@ -84,7 +72,7 @@ function App() {
                         ></input>
                       ) : (
                         <input
-                          key={(counter += 1)}
+                          name={(counter += 1)}
                           className="letter"
                           maxLength="1"
                           onChange={(e) =>
