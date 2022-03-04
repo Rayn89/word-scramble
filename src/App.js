@@ -15,7 +15,7 @@ function App() {
   //Score total.
   let score = useRef(0);
   
-  //Function to set focus on first input.
+  //Function to set focus on first input after a timeout.
   let inputArray;
   let timeoutSet = () => {
   setTimeout(() => {
