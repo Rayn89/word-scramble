@@ -7,9 +7,9 @@ function App() {
   const [data, setData] = useState("");
   const [loading, setLoading] = useState(true);
   let newNum = useRef(1);
-  const score = useRef(0);
+  const[apiNum, setApiNum] = useState(1)
+  let score = useRef(0);
   const [checkLen, setCheckLen] = useState(null)
-  const [showButt, setShowButt ] = useState(false)
 
   let inputArray;
   setTimeout(() => {
@@ -19,43 +19,68 @@ function App() {
     setCheckLen(inputArray.length)
   }, 1000);
 
-  //Counter passed into fetch API.
-  let number = 0;
 
   const handleEnter = (event) => {
       const form = event.target.form;
       const index = [...form].indexOf(event.target);
       form.elements[index].className = "correct"
       const nextOne = form.elements[index + 1]
-      if(nextOne){
+      if (form.elements[index + 2]) {
         nextOne.disabled = false;
-        nextOne.focus()
-      }else{
-        let showbutt = document.querySelector('button');
-        showbutt.className = "show-button"
+        nextOne.focus();
+      } else {
+        let showbutt = document.querySelector("button");
+        showbutt.className = "show-button";
       }
       event.preventDefault();
+    }
+    
+
+    const fetchInfo = () => {
+      axios(`https://api.hatchways.io/assessment/sentences/${apiNum}`)
+        .then((response) => {
+          setData(response.data.data);
+          console.log(response.data.data)
+        })
+        .catch((error) => {
+          console.log("error fetching data");
+        })
+        .finally(setLoading(false));
+    }
+
+    const clearForm = () => {
+      document.getElementById('guess-form').reset()
     }
 
   //Fetching data and assigning to setData useState.
   useEffect(() => {
-    axios(`https://api.hatchways.io/assessment/sentences/${newNum.current}`)
-      .then((response) => {
-        setData(response.data.data);
-      })
-      .catch((error) => {
-        console.log("error fetching data");
-      })
-      .finally(setLoading(false));
-      
-      
+    // axios(`https://api.hatchways.io/assessment/sentences/${apiNum}`)
+    //   .then((response) => {
+    //     setData(response.data.data);
+    //   })
+    //   .catch((error) => {
+    //     console.log("error fetching data");
+    //   })
+    //   .finally(setLoading(false));
+    fetchInfo()
   }, []);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    fetchInfo();
+    clearForm()
+    let changer = document.querySelectorAll('input')
+    console.log(changer)
+    changer.map((el) => console.log(el))
+  }
 
   //Splitting the string received from fetch, keeping the space.
   let newWord;
   if (data) {
     newWord = data.sentence.split(/(\S+\s+)/).filter(function (n) {
+      console.log(data.sentence);
       return n;
+      
     });
   }
   let counter = 0;
@@ -70,8 +95,12 @@ function App() {
             The yellow blocks are meant for spaces
           </span>
         </div>
-        <div>Score: {score.current}</div>
-        <form className="guess-container">
+        <div className="score">Score: {score.current}</div>
+        <form
+          className="guess-container"
+          id="guess-form"
+          onSubmit={handleSubmit}
+        >
           {data &&
             newWord.map((el) => {
               return (
@@ -103,8 +132,14 @@ function App() {
                 </div>
               );
             })}
+          <button
+            className="hidden-button"
+            type="submit"
+            onClick={(e) => setApiNum(apiNum + 1)}
+          >
+            Next
+          </button>
         </form>
-        <button className="hidden-button">Next</button>
       </div>
     </div>
   );

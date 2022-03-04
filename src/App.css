@@ -30,14 +30,21 @@
 }
 
 .sentence{
-  margin-top: 3rem;
+  margin: 1.5rem;
   font-size: 3rem;
   color: rgb(85, 85, 208);
 }
 
 .instructions{
-  margin-top: 2rem;
+  margin-bottom: 1.5rem;
   font-size: 1.5rem;
+}
+
+.score {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-top: -1.5rem;
+  margin-bottom: 1.5rem;
 }
 
 .guess-container{
