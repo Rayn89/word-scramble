@@ -1,10 +1,14 @@
-# Getting Started with Create React App
+# Scrambler
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Sentence scramling app that allows users to guess the scrambled word and increase their score!
 
 ## Available Scripts
 
 In the project directory, you can run:
+
+### `npm install`
+
+Will install all dependencies.
 
 ### `npm start`
 
@@ -17,5 +21,4 @@ You may also see any lint errors in the console.
 ### `npm test` - Testing specs complete.
 
 Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
