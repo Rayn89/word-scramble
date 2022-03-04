@@ -8,17 +8,15 @@ function App() {
   const [loading, setLoading] = useState(true);
   let newNum = useRef(1);
   const score = useRef(0);
-  const savedWord = useRef();
-  const inputRef = useRef(null);
-  const [inputs, setInputs] = useState("");
+  const [checkLen, setCheckLen] = useState(null)
+  const [showButt, setShowButt ] = useState(false)
 
   let inputArray;
-  let completedArray = [];
   setTimeout(() => {
     inputArray = document.querySelectorAll("input");
     inputArray[0].focus();
     inputArray[0].disabled = false;
-    console.log(inputArray)
+    setCheckLen(inputArray.length)
   }, 1000);
 
   //Counter passed into fetch API.
@@ -32,10 +30,10 @@ function App() {
       if(nextOne){
         nextOne.disabled = false;
         nextOne.focus()
-        
+      }else{
+        let showbutt = document.querySelector('button');
+        showbutt.className = "show-button"
       }
-      tracker += 1;
-      console.log(tracker);
       event.preventDefault();
     }
 
@@ -49,6 +47,8 @@ function App() {
         console.log("error fetching data");
       })
       .finally(setLoading(false));
+      
+      
   }, []);
 
   //Splitting the string received from fetch, keeping the space.
@@ -59,8 +59,6 @@ function App() {
     });
   }
   let counter = 0;
-  let tracker = 0;
-  
 
   return (
     <div className="main-container">
@@ -106,7 +104,7 @@ function App() {
               );
             })}
         </form>
-        {tracker == counter ? <button>Hey</button> : "nah"}
+        <button className="hidden-button">Next</button>
       </div>
     </div>
   );
