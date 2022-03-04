@@ -56,16 +56,26 @@
 }
 
 .letter{
-  background: grey;
+  background: #e1e1e1;
   margin: 5px;
   width: 50%;
   text-align: center;
+  border: none;
 }
 
 .space{
-  background: rgb(129, 143, 3);
+  background:  #ffb74d;
   margin: 5px;
   width: 50%;
   text-align: center;
+  border: none;
+}
+
+.correct{
+  background: #4caf50;
+  margin: 5px;
+  width: 50%;
+  text-align: center;
+  border: none;
 }
 

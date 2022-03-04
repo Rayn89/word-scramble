@@ -2,7 +2,6 @@ import { useState, useEffect, useRef } from "react";
 import "./App.css";
 import axios from "axios";
 import scrambler from "./scrambler";
-import {rowCount, columnCount} from "./sentenceParser"
 
 function App() {
   const [data, setData] = useState("");
@@ -14,13 +13,31 @@ function App() {
   const [inputs, setInputs] = useState("");
 
   let inputArray;
+  let completedArray = [];
   setTimeout(() => {
     inputArray = document.querySelectorAll("input");
     inputArray[0].focus();
+    inputArray[0].disabled = false;
+    console.log(inputArray)
   }, 1000);
 
   //Counter passed into fetch API.
   let number = 0;
+
+  const handleEnter = (event) => {
+      const form = event.target.form;
+      const index = [...form].indexOf(event.target);
+      form.elements[index].className = "correct"
+      const nextOne = form.elements[index + 1]
+      if(nextOne){
+        nextOne.disabled = false;
+        nextOne.focus()
+        
+      }
+      tracker += 1;
+      console.log(tracker);
+      event.preventDefault();
+    }
 
   //Fetching data and assigning to setData useState.
   useEffect(() => {
@@ -42,6 +59,8 @@ function App() {
     });
   }
   let counter = 0;
+  let tracker = 0;
+  
 
   return (
     <div className="main-container">
@@ -54,7 +73,7 @@ function App() {
           </span>
         </div>
         <div>Score: {score.current}</div>
-        <div className="guess-container">
+        <form className="guess-container">
           {data &&
             newWord.map((el) => {
               return (
@@ -66,17 +85,19 @@ function App() {
                           className="space"
                           name={(counter += 1)}
                           maxLength="1"
+                          disabled={true}
                           onChange={(e) =>
-                            e.target.value == lett ? console.log("YES") : "no"
+                            e.target.value == lett ? handleEnter(e) : "no"
                           }
                         ></input>
                       ) : (
                         <input
-                          name={(counter += 1)}
+                          name={+(counter += 1)}
                           className="letter"
                           maxLength="1"
+                          disabled={true}
                           onChange={(e) =>
-                            e.target.value == lett ? console.log("YES") : "no"
+                            e.target.value == lett ? handleEnter(e) : "no"
                           }
                         ></input>
                       );
@@ -84,7 +105,8 @@ function App() {
                 </div>
               );
             })}
-        </div>
+        </form>
+        {tracker == counter ? <button>Hey</button> : "nah"}
       </div>
     </div>
   );
