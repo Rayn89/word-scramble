@@ -2,76 +2,78 @@ import { useState, useEffect, useRef } from "react";
 import "./App.css";
 import axios from "axios";
 import scrambler from "./scrambler";
+import resetFields from "./resetter"
 
 function App() {
   const [data, setData] = useState("");
   const [loading, setLoading] = useState(true);
-  let newNum = useRef(1);
-  const[apiNum, setApiNum] = useState(1)
-  let score = useRef(0);
-  const [checkLen, setCheckLen] = useState(null)
+  const [checkLen, setCheckLen] = useState(null);
 
+  //Number to update the fetch API.
+  const [apiNum, setApiNum] = useState(1);
+
+  //Score total.
+  let score = useRef(0);
+  
+  //Function to set focus on first input.
   let inputArray;
+  let timeoutSet = () => {
   setTimeout(() => {
     inputArray = document.querySelectorAll("input");
     inputArray[0].focus();
     inputArray[0].disabled = false;
     setCheckLen(inputArray.length)
-  }, 1000);
+  }, 1000);}
+  timeoutSet()
 
-
+  //Function to set focus on next input.
   const handleEnter = (event) => {
-      const form = event.target.form;
-      const index = [...form].indexOf(event.target);
-      form.elements[index].className = "correct"
-      const nextOne = form.elements[index + 1]
-      if (form.elements[index + 2]) {
-        nextOne.disabled = false;
-        nextOne.focus();
-      } else {
-        let showbutt = document.querySelector("button");
-        showbutt.className = "show-button";
-      }
-      event.preventDefault();
+    const form = event.target.form;
+    const index = [...form].indexOf(event.target);
+    form.elements[index].className = "correct"
+    const nextOne = form.elements[index + 1]
+    if (form.elements[index + 2]) {
+      nextOne.disabled = false;
+      nextOne.focus();
+    } else {
+      let showbutt = document.querySelector("button");
+      showbutt.className = "show-button";
     }
+    event.preventDefault();
+  }
     
+  //Function to fetch data and assign to data state variable.
+  const fetchInfo = () => {
+    axios(`https://api.hatchways.io/assessment/sentences/${apiNum}`)
+      .then((response) => {
+        setData(response.data.data);
+      })
+      .catch((error) => {
+        console.log("error fetching data");
+      })
+      .finally(setLoading(false));
+  }
 
-    const fetchInfo = () => {
-      axios(`https://api.hatchways.io/assessment/sentences/${apiNum}`)
-        .then((response) => {
-          setData(response.data.data);
-          console.log(response.data.data)
-        })
-        .catch((error) => {
-          console.log("error fetching data");
-        })
-        .finally(setLoading(false));
-    }
+  //Clear form on submit.
+  const clearForm = () => {
+    document.getElementById('guess-form').reset()
+  }
 
-    const clearForm = () => {
-      document.getElementById('guess-form').reset()
-    }
-
-  //Fetching data and assigning to setData useState.
+  //Fetching data.
   useEffect(() => {
-    // axios(`https://api.hatchways.io/assessment/sentences/${apiNum}`)
-    //   .then((response) => {
-    //     setData(response.data.data);
-    //   })
-    //   .catch((error) => {
-    //     console.log("error fetching data");
-    //   })
-    //   .finally(setLoading(false));
     fetchInfo()
+    timeoutSet()
   }, []);
 
+
+  //Submit to reset classes, fetch new info, clear inputs, add to score.
   const handleSubmit = async (e) => {
     e.preventDefault();
+    resetFields();
     fetchInfo();
     clearForm()
-    let changer = document.querySelectorAll('input')
-    console.log(changer)
-    changer.map((el) => console.log(el))
+    timeoutSet()
+    score.current++
   }
 
   //Splitting the string received from fetch, keeping the space.
@@ -110,7 +112,7 @@ function App() {
                       return lett == " " ? (
                         <input
                           className="space"
-                          name={(counter += 1)}
+                          name="space"
                           maxLength="1"
                           disabled={true}
                           onChange={(e) =>
@@ -119,7 +121,7 @@ function App() {
                         ></input>
                       ) : (
                         <input
-                          name={+(counter += 1)}
+                          name="letter"
                           className="letter"
                           maxLength="1"
                           disabled={true}
