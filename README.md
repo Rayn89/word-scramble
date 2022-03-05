@@ -2,6 +2,8 @@
 
 Sentence scramling app that allows users to guess the scrambled word and increase their score!
 
+![splashpagegif](https://res.cloudinary.com/deaekdi5y/image/upload/v1646439441/word_scrambler_ucazo5.gif)
+
 ## Available Scripts
 
 In the project directory, you can run:
@@ -20,5 +22,7 @@ You may also see any lint errors in the console.
 
 ### `npm test` - Testing specs complete.
 
-Launches the test runner in the interactive watch mode.\
+Launches the test runner in the interactive watch mode.
+
+
 
